@@ -177,62 +177,6 @@ public class Solution {
 
         return 0;
     }
-
-    public String longestPalindrome(String s) {
-
-
-        int length = s.length();
-
-        if (length == 1) {
-            return s;
-        }
-
-        int left = 0, right = 0;
-
-        int max = 0;
-
-        String result = "";
-
-
-        for (int i = 0; i < length; i++) {
-            left = i;
-            right = i;
-            while (left >= 0 && right < length) {
-                if (s.charAt(left) == s.charAt(right)) {
-                    if (max < s.substring(left, right + 1).length()) {
-                        result = s.substring(left, right + 1);
-                        max = s.substring(left, right + 1).length();
-                    }
-                    left--;
-                    right++;
-
-                } else {
-                    break;
-                }
-            }
-
-            left = i;
-            right = i+1;
-            while (left >= 0 && right < length) {
-                if (s.charAt(left) == s.charAt(right)) {
-                    if (max < s.substring(left, right + 1).length()) {
-                        result = s.substring(left, right + 1);
-                        max = s.substring(left, right + 1).length();
-                    }
-                    left--;
-                    right++;
-
-                } else {
-                    break;
-                }
-            }
-
-        }
-
-
-        return result;
-    }
-
     public String longestPalindrome_dp(String s) {
         if (s.length() <= 1) {
             return s;
@@ -260,7 +204,7 @@ public class Solution {
         return s.substring(start, end + 1);
     }
 
-    public String longestPalindrome_2(String s) {
+    public String longestPalindrome(String s) {
         if(s.length() == 1){
             return s;
         }
