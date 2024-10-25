@@ -1,5 +1,6 @@
 package com.example.algorithm;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -257,10 +258,48 @@ public class Solution {
         return result;
     }
 
+    public String convert(String s, int numRows) {
+
+        String[] word = new String[numRows];
+
+        if(numRows == 1 || s.length() == 1){
+            return s;
+        }
+
+        for (int i = 0; i < numRows; i++) {
+            word[i] = "";
+        }
+        int row = 0;
+        boolean dir = true;
+
+        for (int i = 0; i < s.length(); i++) {
+            word[row] += s.charAt(i);
+
+            if(dir && row >= numRows -1 ){
+                dir = false;
+                row--;
+            } else if (!dir && row == 0) {
+                dir = true;
+                row++;
+            }else if(dir){
+                row++;
+            } else if (!dir) {
+                row--;
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < numRows; i++) {
+            result.append(word[i]);
+        }
+
+        return result.toString();
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.longestPalindrome_2("babded"));
+        System.out.println(solution.convert("AB",1));
     }
 
 }
