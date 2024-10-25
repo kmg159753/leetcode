@@ -134,14 +134,15 @@ public class Solution {
             }
         }
 
-        if ( array.length % 2 == 0) {
+        if (array.length % 2 == 0) {
             int index = (n + m) / 2;
-            return (double) (array[index-1] + array[index]) / 2;
+            return (double) (array[index - 1] + array[index]) / 2;
         } else {
             int index = (n + m) / 2;
             return array[index];
         }
     }
+
     public double findMedianSortedArrays_2(int[] nums1, int[] nums2) {
         int n1 = nums1.length, n2 = nums2.length;
 
@@ -177,10 +178,145 @@ public class Solution {
         return 0;
     }
 
+    public String longestPalindrome(String s) {
+
+
+        int length = s.length();
+
+        if (length == 1) {
+            return s;
+        }
+
+        int left = 0, right = 0;
+
+        int max = 0;
+
+        String result = "";
+
+
+        for (int i = 0; i < length; i++) {
+            left = i;
+            right = i;
+            while (left >= 0 && right < length) {
+                if (s.charAt(left) == s.charAt(right)) {
+                    if (max < s.substring(left, right + 1).length()) {
+                        result = s.substring(left, right + 1);
+                        max = s.substring(left, right + 1).length();
+                    }
+                    left--;
+                    right++;
+
+                } else {
+                    break;
+                }
+            }
+
+            left = i;
+            right = i+1;
+            while (left >= 0 && right < length) {
+                if (s.charAt(left) == s.charAt(right)) {
+                    if (max < s.substring(left, right + 1).length()) {
+                        result = s.substring(left, right + 1);
+                        max = s.substring(left, right + 1).length();
+                    }
+                    left--;
+                    right++;
+
+                } else {
+                    break;
+                }
+            }
+
+        }
+
+
+        return result;
+    }
+
+    public String longestPalindrome_dp(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        int maxLen = 1;
+        int start = 0;
+        int end = 0;
+        boolean[][] dp = new boolean[s.length()][s.length()];
+
+        for (int i = 0; i < s.length(); ++i) {
+            dp[i][i] = true;
+            for (int j = 0; j < i; ++j) {
+                if (s.charAt(j) == s.charAt(i) && (i - j <= 2 || dp[j + 1][i - 1])) {
+                    dp[j][i] = true;
+                    if (i - j + 1 > maxLen) {
+                        maxLen = i - j + 1;
+                        start = j;
+                        end = i;
+                    }
+                }
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    public String longestPalindrome_2(String s) {
+        if(s.length() == 1){
+            return s;
+        }
+
+
+
+        int maxlen = 0;
+
+        String result = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            int left = i, right = i;
+
+            while(left >= 0 && right < s.length()){
+                if(s.charAt(left) == s.charAt(right)){
+                    String substring = s.substring(left, right + 1);
+                    if(maxlen < substring.length()){
+                        maxlen = substring.length();
+                        result = substring;
+                    }
+                    left--;
+                    right++;
+                } else {
+                    break;
+
+                }
+            }
+
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            int left = i, right = i+1;
+
+            while(left >= 0 && right < s.length()){
+                if(s.charAt(left) == s.charAt(right)){
+                    String substring = s.substring(left, right + 1);
+                    if(maxlen < substring.length()){
+                        maxlen = substring.length();
+                        result = substring;
+                    }
+                    left--;
+                    right++;
+
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.findMedianSortedArrays_2(new int[]{1, 3, 8, 9, 15}, new int[]{7, 11, 18, 19, 21, 25}));
+        System.out.println(solution.longestPalindrome_2("babded"));
     }
 
 }
