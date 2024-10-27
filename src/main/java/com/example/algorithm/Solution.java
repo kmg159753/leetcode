@@ -316,7 +316,7 @@ public class Solution {
                 return 0;
             }
 
-            if(temp < 0 && result < Integer.MIN_VALUE - (temp % 10) * cnt){
+            if (temp < 0 && result < Integer.MIN_VALUE - (temp % 10) * cnt) {
                 return 0;
             }
             result += (temp % 10) * cnt;
@@ -329,6 +329,7 @@ public class Solution {
         return result;
 
     }
+
     public int reverse_string(int x) {
         String stringX = Integer.toString(Math.abs(x));
 
@@ -338,24 +339,51 @@ public class Solution {
 
         boolean isnegative = x < 0 ? true : false;
 
-        try{
-            if(isnegative) {
+        try {
+            if (isnegative) {
                 return -Integer.parseInt(reverse.toString());
-            }else {
+            } else {
                 return Integer.parseInt(reverse.toString());
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
         }
     }
 
-    public int myAtoi(String s) {
-        String stringx = Integer.toString(x);
+//    public int myAtoi(String s) {
+//
+//    }
+
+    public boolean isPalindrome(int x) {
+        int temp = x;
+        String reverseNum = "";
+
+        if (x < 0) {
+            return false;
+        }
+
+        while (temp > 0) {
+            int num = temp % 10;
+            temp /= 10;
+
+            reverseNum += num;
+        }
+
+        try {
+            if (x == 0 || x == Integer.parseInt(reverseNum)) {
+                return true;
+            }else {
+                return false;
+            }
+        }catch (NumberFormatException e){
+            return false;
+        }
+
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.reverse(123));
+        System.out.println(solution.isPalindrome(1234567899));
     }
 
 }
