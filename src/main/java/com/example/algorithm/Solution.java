@@ -603,10 +603,43 @@ public class Solution {
         return result;
     }
 
+    public int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+
+        map.put("I", 1);
+        map.put("IV", 4);
+        map.put("V", 5);
+        map.put("IX", 9);
+        map.put("X", 10);
+        map.put("XL", 40);
+        map.put("L", 50);
+        map.put("XC", 90);
+        map.put("C", 100);
+        map.put("CD",400);
+        map.put("D", 500);
+        map.put("CM", 900);
+        map.put("M", 1000);
+
+        int sum = 0;
+        int index = 0;
+
+        while (index < s.length()){
+            if(index < s.length()-1 && map.containsKey(s.substring(index,index+2))){
+                sum += map.get(s.substring(index, index + 2));
+                index++;
+                index++;
+            }else {
+                sum += map.get(s.substring(index, index + 1));
+                index++;
+            }
+        }
+        return sum;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.intToRoman(1079));
+        System.out.println(solution.romanToInt("MCMXCIV"));
+
 
     }
 
