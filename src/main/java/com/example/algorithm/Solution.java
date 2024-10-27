@@ -1,6 +1,5 @@
 package com.example.algorithm;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -178,6 +177,7 @@ public class Solution {
 
         return 0;
     }
+
     public String longestPalindrome_dp(String s) {
         if (s.length() <= 1) {
             return s;
@@ -206,10 +206,9 @@ public class Solution {
     }
 
     public String longestPalindrome(String s) {
-        if(s.length() == 1){
+        if (s.length() == 1) {
             return s;
         }
-
 
 
         int maxlen = 0;
@@ -219,10 +218,10 @@ public class Solution {
         for (int i = 0; i < s.length(); i++) {
             int left = i, right = i;
 
-            while(left >= 0 && right < s.length()){
-                if(s.charAt(left) == s.charAt(right)){
+            while (left >= 0 && right < s.length()) {
+                if (s.charAt(left) == s.charAt(right)) {
                     String substring = s.substring(left, right + 1);
-                    if(maxlen < substring.length()){
+                    if (maxlen < substring.length()) {
                         maxlen = substring.length();
                         result = substring;
                     }
@@ -237,12 +236,12 @@ public class Solution {
         }
 
         for (int i = 0; i < s.length(); i++) {
-            int left = i, right = i+1;
+            int left = i, right = i + 1;
 
-            while(left >= 0 && right < s.length()){
-                if(s.charAt(left) == s.charAt(right)){
+            while (left >= 0 && right < s.length()) {
+                if (s.charAt(left) == s.charAt(right)) {
                     String substring = s.substring(left, right + 1);
-                    if(maxlen < substring.length()){
+                    if (maxlen < substring.length()) {
                         maxlen = substring.length();
                         result = substring;
                     }
@@ -262,7 +261,7 @@ public class Solution {
 
         String[] word = new String[numRows];
 
-        if(numRows == 1 || s.length() == 1){
+        if (numRows == 1 || s.length() == 1) {
             return s;
         }
 
@@ -275,13 +274,13 @@ public class Solution {
         for (int i = 0; i < s.length(); i++) {
             word[row] += s.charAt(i);
 
-            if(dir && row >= numRows -1 ){
+            if (dir && row >= numRows - 1) {
                 dir = false;
                 row--;
             } else if (!dir && row == 0) {
                 dir = true;
                 row++;
-            }else if(dir){
+            } else if (dir) {
                 row++;
             } else if (!dir) {
                 row--;
@@ -297,9 +296,47 @@ public class Solution {
         return result.toString();
     }
 
+    public int reverse(int x) {
+        int temp = x;
+
+        int cnt = 1;
+
+        while (Math.abs(x) >= 10) {
+            x /= 10;
+            cnt *= 10;
+        }
+
+        int result = 0;
+
+        while (Math.abs(temp) > 0) {
+
+
+            if (temp >= 0 && result > Integer.MAX_VALUE - (temp % 10) * cnt
+
+            ) {
+                return 0;
+            }
+
+
+            if(temp < 0 && result < Integer.MIN_VALUE - (temp % 10) * cnt){
+                return 0;
+            }
+
+            result += (temp % 10) * cnt;
+
+
+            temp /= 10;
+            cnt /= 10;
+        }
+
+
+        return result;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.convert("AB",1));
+        System.out.println(solution.reverse(123));
     }
 
 }
