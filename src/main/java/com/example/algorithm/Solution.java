@@ -372,18 +372,142 @@ public class Solution {
         try {
             if (x == 0 || x == Integer.parseInt(reverseNum)) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
 
     }
 
+    public boolean isMatch(String s, String p) {
+
+        boolean result = false;
+
+        for (int i = 0; i < p.length(); i++) {
+            boolean istrue = true;
+
+            int sindex = 0;
+            int pindex = i;
+
+            while (sindex < s.length() && pindex < p.length()) {
+                if (p.charAt(pindex) == '*') {
+
+                    while (true) {
+                        if (!(sindex < s.length() && pindex < p.length())) break;
+
+                        if (p.charAt(pindex - 1) == s.charAt(sindex) || p.charAt(pindex - 1) == '.') {
+                            sindex++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    pindex++;
+                } else if (p.charAt(pindex) == '.') {
+                    sindex++;
+                    pindex++;
+                } else {
+                    if (p.charAt(pindex) == s.charAt(sindex)) {
+                        sindex++;
+                        pindex++;
+                    } else {
+                        if ((pindex != p.length() - 1) && p.charAt(pindex + 1) == '*') {
+                            sindex++;
+                            pindex++;
+                        } else {
+                            istrue = false;
+                            break;
+                        }
+
+                    }
+                }
+            }
+            if (!(sindex >= s.length() && pindex >= p.length())) {
+                istrue = false;
+            }
+
+            if (istrue) {
+                return istrue;
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isMatch_2(String s, String p) {
+
+        boolean istrue = true;
+
+        int sindex = 0;
+        int pindex = 0;
+
+        while (sindex < s.length() && pindex < p.length()) {
+            if (p.charAt(pindex) == '*') {
+                if (pindex == 0) {
+                    istrue = false;
+                    break;
+                } else {
+                    while (true) {
+                        if (!(sindex < s.length() && pindex < p.length())) break;
+
+                        if (p.charAt(pindex - 1) == s.charAt(sindex) || p.charAt(pindex - 1) == '.') {
+                            sindex++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                pindex++;
+            } else if (p.charAt(pindex) == '.') {
+                sindex++;
+                pindex++;
+            } else {
+                if (p.charAt(pindex) == s.charAt(sindex)) {
+                    sindex++;
+                    pindex++;
+                } else {
+                    istrue = false;
+                    break;
+                }
+            }
+        }
+
+        if (!(sindex >= s.length() && pindex >= p.length())) {
+            istrue = false;
+        }
+
+        return istrue;
+    }
+
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length-1;
+
+        int maxStore = 0;
+
+        while(left < right){
+            int width = right - left;
+            int length = Math.min(height[left], height[right]);
+
+            maxStore = Math.max(maxStore, width * length);
+
+            if(height[left]> height[right]){
+                right--;
+            }else {
+                left++;
+            }
+        }
+
+        return maxStore;
+    }
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.isPalindrome(1234567899));
+        System.out.println(solution.maxArea(new int[]{1,8,6,2,5,4,8,3,7}));
+
     }
 
 }
