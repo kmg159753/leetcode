@@ -483,19 +483,19 @@ public class Solution {
 
     public int maxArea(int[] height) {
         int left = 0;
-        int right = height.length-1;
+        int right = height.length - 1;
 
         int maxStore = 0;
 
-        while(left < right){
+        while (left < right) {
             int width = right - left;
             int length = Math.min(height[left], height[right]);
 
             maxStore = Math.max(maxStore, width * length);
 
-            if(height[left]> height[right]){
+            if (height[left] > height[right]) {
                 right--;
-            }else {
+            } else {
                 left++;
             }
         }
@@ -503,10 +503,110 @@ public class Solution {
         return maxStore;
     }
 
+    public String intToRoman(int num) {
+        String result = "";
+
+        int count = 1;
+
+        int temp = num;
+
+        while (temp >= 10) {
+            temp /= 10;
+            count *= 10;
+        }
+        if (count == 1000) {
+            int x = num / 1000;
+
+            for (int i = 0; i < x; i++) {
+                result += "M";
+            }
+            num -= x * count;
+            count /= 10;
+        }
+        if (count == 100) {
+            int x = num / 100;
+
+            if(x != 0){
+                if (1 <= x && x <= 3) {
+                    for (int i = 0; i < x; i++) {
+                        result += "C";
+                    }
+                } else if (6 <= x && x <= 8) {
+                    result += "D";
+                    for (int i = 0; i < x - 5; i++) {
+                        result += "C";
+                    }
+                } else if (x == 4) {
+                    result += "CD";
+                } else if(x==9){
+                    result += "CM";
+                }else {
+                    result += "D";
+                }
+            }
+
+            num -= x * count;
+            count /= 10;
+        }
+
+        if (count == 10) {
+            int x = num / 10;
+
+            if(x != 0){
+                if (1 <= x && x <= 3) {
+                    for (int i = 0; i < x; i++) {
+                        result += "X";
+                    }
+                } else if (6 <= x && x <= 8) {
+                    result += "L";
+                    for (int i = 0; i < x - 5; i++) {
+                        result += "X";
+                    }
+                } else if (x == 4) {
+                    result += "XL";
+                } else if(x==9){
+                    result += "XC";
+                }else {
+                    result += "L";
+                }
+            }
+
+
+            num -= x * count;
+            count /= 10;
+        }
+
+        if (count == 1) {
+            int x = num;
+
+            if(x != 0){
+                if (1 <= x && x <= 3) {
+                    for (int i = 0; i < x; i++) {
+                        result += "I";
+                    }
+                } else if (6 <= x && x <= 8) {
+                    result += "V";
+                    for (int i = 0; i < x - 5; i++) {
+                        result += "I";
+                    }
+                } else if (x == 4) {
+                    result += "IV";
+                } else if(x==9) {
+                    result += "IX";
+                }else {
+                    result += "V";
+                }
+            }
+        }
+
+
+        return result;
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.maxArea(new int[]{1,8,6,2,5,4,8,3,7}));
+        System.out.println(solution.intToRoman(1079));
 
     }
 
