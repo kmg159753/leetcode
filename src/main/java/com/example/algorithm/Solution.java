@@ -526,7 +526,7 @@ public class Solution {
         if (count == 100) {
             int x = num / 100;
 
-            if(x != 0){
+            if (x != 0) {
                 if (1 <= x && x <= 3) {
                     for (int i = 0; i < x; i++) {
                         result += "C";
@@ -538,9 +538,9 @@ public class Solution {
                     }
                 } else if (x == 4) {
                     result += "CD";
-                } else if(x==9){
+                } else if (x == 9) {
                     result += "CM";
-                }else {
+                } else {
                     result += "D";
                 }
             }
@@ -552,7 +552,7 @@ public class Solution {
         if (count == 10) {
             int x = num / 10;
 
-            if(x != 0){
+            if (x != 0) {
                 if (1 <= x && x <= 3) {
                     for (int i = 0; i < x; i++) {
                         result += "X";
@@ -564,9 +564,9 @@ public class Solution {
                     }
                 } else if (x == 4) {
                     result += "XL";
-                } else if(x==9){
+                } else if (x == 9) {
                     result += "XC";
-                }else {
+                } else {
                     result += "L";
                 }
             }
@@ -579,7 +579,7 @@ public class Solution {
         if (count == 1) {
             int x = num;
 
-            if(x != 0){
+            if (x != 0) {
                 if (1 <= x && x <= 3) {
                     for (int i = 0; i < x; i++) {
                         result += "I";
@@ -591,9 +591,9 @@ public class Solution {
                     }
                 } else if (x == 4) {
                     result += "IV";
-                } else if(x==9) {
+                } else if (x == 9) {
                     result += "IX";
-                }else {
+                } else {
                     result += "V";
                 }
             }
@@ -615,7 +615,7 @@ public class Solution {
         map.put("L", 50);
         map.put("XC", 90);
         map.put("C", 100);
-        map.put("CD",400);
+        map.put("CD", 400);
         map.put("D", 500);
         map.put("CM", 900);
         map.put("M", 1000);
@@ -623,12 +623,12 @@ public class Solution {
         int sum = 0;
         int index = 0;
 
-        while (index < s.length()){
-            if(index < s.length()-1 && map.containsKey(s.substring(index,index+2))){
+        while (index < s.length()) {
+            if (index < s.length() - 1 && map.containsKey(s.substring(index, index + 2))) {
                 sum += map.get(s.substring(index, index + 2));
                 index++;
                 index++;
-            }else {
+            } else {
                 sum += map.get(s.substring(index, index + 1));
                 index++;
             }
@@ -636,9 +636,38 @@ public class Solution {
         return sum;
     }
 
+    public String longestCommonPrefix(String[] strs) {
+
+        int count = 0;
+
+        for (int i = 0; i < strs[0].length(); i++) {
+            for (int j = 1; j < strs.length; j++) {
+                try {
+                    if (!(strs[0].charAt(i) == strs[j].charAt(i))) {
+                        if (count == 0) {
+                            return "";
+                        } else {
+                            return strs[0].substring(0, count);
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    if (count == 0) {
+                        return "";
+                    } else {
+                        return strs[0].substring(0, count);
+                    }
+                }
+            }
+            count++;
+
+        }
+
+        return strs[0].substring(0, count);
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.romanToInt("MCMXCIV"));
+        System.out.println(solution.longestCommonPrefix(new String[]{"dog", "do", "d"}));
 
 
     }
