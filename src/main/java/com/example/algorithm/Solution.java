@@ -1,8 +1,6 @@
 package com.example.algorithm;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class Solution {
     public int[] twoSum(int[] nums, int target) {
@@ -665,9 +663,153 @@ public class Solution {
         return strs[0].substring(0, count);
     }
 
+    public List<String> letterCombinations(String digits) {
+        if(digits.length() == 0){
+            return List.of();
+        }
+
+
+        Map<Integer, List<Character>> map = new HashMap<>();
+        List<String> result = new ArrayList<>();
+
+
+        map.put(2, List.of('a', 'b', 'c'));
+        map.put(3, List.of('d', 'e', 'f'));
+        map.put(4, List.of('g', 'h', 'i'));
+        map.put(5, List.of('j', 'k', 'l'));
+        map.put(6, List.of('m', 'n', 'o'));
+        map.put(7, List.of('p', 'q', 'r','s'));
+        map.put(8, List.of('t','u','v'));
+        map.put(9, List.of('w','x','y','z'));
+
+        recursion(digits,new StringBuilder(),result, 0,  map);
+
+        return result;
+    }
+
+    private void recursion (String digits,StringBuilder comb ,List<String> result , int inputIndex,Map<Integer, List<Character>> map){
+        if(inputIndex == digits.length()){// 최대 depth까지 선별했으면 return
+            result.add(comb.toString());
+            return;
+        }
+
+        int i = Character.getNumericValue(digits.charAt(inputIndex));// 현재 depth의 값 추출
+        List<Character> characters = map.get(i);// 현재 depth의 알파벳 리스트
+
+        for (Character character : characters) {
+            comb.append(character);
+            inputIndex++;
+            recursion(digits,comb,result,inputIndex,map);
+            comb.deleteCharAt(comb.length() - 1);
+            inputIndex--;
+        }
+    }
+
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        generateParenthesis_backtracking(n,0, 0,result, stringBuilder);
+
+        return result;
+
+
+    }
+
+    private void generateParenthesis_backtracking(int n ,int left,int right, List<String> result,StringBuilder stringBuilder ){
+        if(stringBuilder.length() == 2*n){
+            result.add(stringBuilder.toString());
+            return;
+        }
+
+        if(left < n){
+            stringBuilder.append('(');
+            generateParenthesis_backtracking(n, left + 1,right, result, stringBuilder);
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
+
+        if(left > right ){
+            stringBuilder.append(')');
+            generateParenthesis_backtracking(n, left, right+1,result, stringBuilder);
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
+
+    }
+
+    public void solveSudoku(char[][] board) {
+
+        sudokuBacktracking(board, 0, 0);
+    }
+
+    private boolean sudokuBacktracking(char[][] board, int row, int col) {
+        if(row == board.length){
+            return true;
+        }
+
+        if(col == board.length ) {
+            return sudokuBacktracking(board, row + 1, 0);
+        }
+        if(board[row][col] != '.'){
+            return sudokuBacktracking(board, row, col + 1);
+        }
+
+        for(char i = '1'; i  <= '9'; i++ ){
+            if(isValid(board,row, col, i)){
+                board[row][col] = i;
+                if(sudokuBacktracking(board, row, col+1)){
+                    return true;
+                }
+
+                board[row][col] = '.';
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isValid(char[][] board, int row, int col ,char num){
+        for (int i = 0; i < 9; i++) {
+            if(i != col && board[row][i] == num){
+                return false;
+            }
+            if(i != row && board[i][col] == num){
+                return false;
+            }
+            int boxrow = (row / 3) * 3;
+            int boxcol = (col / 3) * 3;
+
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    if(board[boxrow + j][boxcol + k] == num){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
+        char[][] board = {
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+        };
         Solution solution = new Solution();
-        System.out.println(solution.longestCommonPrefix(new String[]{"dog", "do", "d"}));
+        solution.solveSudoku(board);
+
+        for (char[] row : board) {
+            for (char cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
 
 
     }
