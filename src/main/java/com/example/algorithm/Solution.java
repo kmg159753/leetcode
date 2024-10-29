@@ -664,7 +664,7 @@ public class Solution {
     }
 
     public List<String> letterCombinations(String digits) {
-        if(digits.length() == 0){
+        if (digits.length() == 0) {
             return List.of();
         }
 
@@ -678,17 +678,17 @@ public class Solution {
         map.put(4, List.of('g', 'h', 'i'));
         map.put(5, List.of('j', 'k', 'l'));
         map.put(6, List.of('m', 'n', 'o'));
-        map.put(7, List.of('p', 'q', 'r','s'));
-        map.put(8, List.of('t','u','v'));
-        map.put(9, List.of('w','x','y','z'));
+        map.put(7, List.of('p', 'q', 'r', 's'));
+        map.put(8, List.of('t', 'u', 'v'));
+        map.put(9, List.of('w', 'x', 'y', 'z'));
 
-        recursion(digits,new StringBuilder(),result, 0,  map);
+        recursion(digits, new StringBuilder(), result, 0, map);
 
         return result;
     }
 
-    private void recursion (String digits,StringBuilder comb ,List<String> result , int inputIndex,Map<Integer, List<Character>> map){
-        if(inputIndex == digits.length()){// 최대 depth까지 선별했으면 return
+    private void recursion(String digits, StringBuilder comb, List<String> result, int inputIndex, Map<Integer, List<Character>> map) {
+        if (inputIndex == digits.length()) {// 최대 depth까지 선별했으면 return
             result.add(comb.toString());
             return;
         }
@@ -699,7 +699,7 @@ public class Solution {
         for (Character character : characters) {
             comb.append(character);
             inputIndex++;
-            recursion(digits,comb,result,inputIndex,map);
+            recursion(digits, comb, result, inputIndex, map);
             comb.deleteCharAt(comb.length() - 1);
             inputIndex--;
         }
@@ -708,28 +708,28 @@ public class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
-        generateParenthesis_backtracking(n,0, 0,result, stringBuilder);
+        generateParenthesis_backtracking(n, 0, 0, result, stringBuilder);
 
         return result;
 
 
     }
 
-    private void generateParenthesis_backtracking(int n ,int left,int right, List<String> result,StringBuilder stringBuilder ){
-        if(stringBuilder.length() == 2*n){
+    private void generateParenthesis_backtracking(int n, int left, int right, List<String> result, StringBuilder stringBuilder) {
+        if (stringBuilder.length() == 2 * n) {
             result.add(stringBuilder.toString());
             return;
         }
 
-        if(left < n){
+        if (left < n) {
             stringBuilder.append('(');
-            generateParenthesis_backtracking(n, left + 1,right, result, stringBuilder);
+            generateParenthesis_backtracking(n, left + 1, right, result, stringBuilder);
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         }
 
-        if(left > right ){
+        if (left > right) {
             stringBuilder.append(')');
-            generateParenthesis_backtracking(n, left, right+1,result, stringBuilder);
+            generateParenthesis_backtracking(n, left, right + 1, result, stringBuilder);
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         }
 
@@ -741,21 +741,21 @@ public class Solution {
     }
 
     private boolean sudokuBacktracking(char[][] board, int row, int col) {
-        if(row == board.length){
+        if (row == board.length) {
             return true;
         }
 
-        if(col == board.length ) {
+        if (col == board.length) {
             return sudokuBacktracking(board, row + 1, 0);
         }
-        if(board[row][col] != '.'){
+        if (board[row][col] != '.') {
             return sudokuBacktracking(board, row, col + 1);
         }
 
-        for(char i = '1'; i  <= '9'; i++ ){
-            if(isValid(board,row, col, i)){
+        for (char i = '1'; i <= '9'; i++) {
+            if (isValid(board, row, col, i)) {
                 board[row][col] = i;
-                if(sudokuBacktracking(board, row, col+1)){
+                if (sudokuBacktracking(board, row, col + 1)) {
                     return true;
                 }
 
@@ -766,12 +766,12 @@ public class Solution {
         return false;
     }
 
-    private boolean isValid(char[][] board, int row, int col ,char num){
+    private boolean isValid(char[][] board, int row, int col, char num) {
         for (int i = 0; i < 9; i++) {
-            if(i != col && board[row][i] == num){
+            if (i != col && board[row][i] == num) {
                 return false;
             }
-            if(i != row && board[i][col] == num){
+            if (i != row && board[i][col] == num) {
                 return false;
             }
             int boxrow = (row / 3) * 3;
@@ -779,7 +779,7 @@ public class Solution {
 
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
-                    if(board[boxrow + j][boxcol + k] == num){
+                    if (board[boxrow + j][boxcol + k] == num) {
                         return false;
                     }
                 }
@@ -789,29 +789,38 @@ public class Solution {
         return true;
     }
 
-    public static void main(String[] args) {
-        char[][] board = {
-                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-        };
-        Solution solution = new Solution();
-        solution.solveSudoku(board);
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> lists = new ArrayList<>();
 
-        for (char[] row : board) {
-            for (char cell : row) {
-                System.out.print(cell + " ");
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i-1]) {
+                continue;
             }
-            System.out.println();
+            int left = i + 1, right = nums.length - 1;
+
+            while (left < right) {
+                if (nums[i] + nums[left] + nums[right] == 0) {
+                    lists.add(List.of((nums[i]), nums[left], nums[right]));
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+
+                    left++; right--;
+
+
+                } else if ((nums[i] + nums[left] + nums[right] < 0)) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
         }
+        return lists;
+    }
 
-
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.threeSum(new int[]{0, 0, 0, 0}));
     }
 
 }
