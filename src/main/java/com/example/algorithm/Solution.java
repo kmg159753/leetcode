@@ -818,9 +818,156 @@ public class Solution {
         return lists;
     }
 
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int min = Integer.MAX_VALUE;
+        int result = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+                if(sum == target){
+                    return sum;
+                } else if(sum < target){
+                    left++;
+                    if(Math.abs(target - sum) < min){
+                        min = Math.abs(target - sum);
+                        result = sum;
+                    }
+                } else {
+                    right--;
+                    if(Math.abs(sum - target) < min){
+                        min = Math.abs(target - sum);
+                        result = sum;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length-3; i++) {
+            if(i != 0 && nums[i] == nums[i-1]) continue;
+            for (int j = i+1; j < nums.length-2; j++) {
+                if(j != i+1 && nums[j] == nums[j-1]) continue;
+
+                int left = j+1, right = nums.length-1;
+
+                while (left < right){
+                    long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
+
+
+                    if(sum == target){
+                        result.add(List.of(nums[i], nums[j], nums[left], nums[right]));
+
+                        while (left < right && nums[left] == nums[left + 1]) left++;
+                        while (left < right && nums[right] == nums[right - 1]) right--;
+                        left++;
+                        right--;
+                    } else if (sum < target) {
+                        left++;
+                    }else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int search(int[] nums, int target) {
+        int index = nums.length / 2;
+        int start = 0;
+        int end = nums.length - 1;
+
+        while (index >= start && index <= end && start <= end){
+
+            if (nums[index] >= nums[start]){//왼쪽 정렬?
+                if(nums[start] <= target && nums[index] >= target){ // 왼쪽에 포함?
+                    end = index;
+                    index = start + (end - start) / 2;
+                    while (index >= start && index <= end && start <= end){
+                        if (nums[index] < target){
+                            start = index + 1;
+                            index = start + (end - start) / 2;
+                        } else if (nums[index] > target) {
+                            end = index - 1;
+                            index = start + (end - start) / 2;
+                        }else {
+                            return index;
+                        }
+                    }
+                    return -1;
+                }else { // 포함 안되면 오른쪽
+                    start = index + 1;
+                    index = start + (end - start) / 2;
+                }
+            } else {// 오른쪽 정렬
+                if(nums[end] >= target && nums[index] <= target){ // 오른쪽에 포함?
+                    start = index;
+                    index = start + (end - start) / 2;
+                    while (index >= start && index <= end && start <= end){
+                        if (nums[index] < target){
+                            start = index + 1;
+                            index = start + (end - start) / 2;
+                        } else if (nums[index] > target) {
+                            end = index - 1;
+                            index = start + (index - start) / 2;
+                        }else {
+                            return index;
+                        }
+                    }
+                    return -1;
+                }else { // 포함 안되면 왼쪽
+                    end = index - 1;
+                    index = start + (end - start) / 2;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int left = binarySearch(nums, target, true);
+        int right = binarySearch(nums, target, false);
+
+        return new int[]{left, right};
+    }
+
+    private int binarySearch(int[] nums,int target, boolean isLeft){
+        int left = 0;
+        int right = nums.length - 1;
+        int index = -1;
+
+        while (left <= right){
+            int mid = (left + right) / 2;
+
+            if(nums[mid] == target){
+                index = mid;
+                if(isLeft) right = mid - 1;
+                else left = mid + 1;
+            }else if(nums[mid] < target){
+                left = mid + 1;
+            }else {
+                right = mid - 1;
+            }
+        }
+
+        return index;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.threeSum(new int[]{0, 0, 0, 0}));
+        System.out.println(Arrays.toString(solution.searchRange(new int[]{5, 7, 7, 8, 8, 10}, 8)));
     }
 
 }
