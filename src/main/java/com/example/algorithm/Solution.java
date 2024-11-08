@@ -1,5 +1,6 @@
 package com.example.algorithm;
 
+import java.lang.module.FindException;
 import java.util.*;
 
 public class Solution {
@@ -965,9 +966,52 @@ public class Solution {
 
     }
 
+    public int jump(int[] nums) {
+        int max = 0; // 지금 검사하고 있는 것중 최대로 움직일 수 있는 위치
+        int posjump = 0;
+        int jump = 0; // result
+
+        for (int i = 0; i < nums.length-1; i++) {
+            max = Math.max(max, i + nums[i]);
+
+            if(i == posjump){
+                jump++;
+                posjump = max;
+            }
+        }
+
+        return jump;
+    }
+
+    public boolean canJump(int[] nums) {
+        int max = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if(max < i){
+                return false;
+            }
+            max = Math.max(max, i + nums[i]);
+        }
+
+        return true;
+    }
+
+    public boolean canJump2(int[] nums) {
+        int goal = nums.length - 1;
+
+        for (int i = nums.length-2; i >=0; i--) {
+            int nxtindex = i + nums[i];
+            if(nxtindex >= goal){
+                goal = i;
+            }
+        }
+
+        return goal == 0;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(Arrays.toString(solution.searchRange(new int[]{5, 7, 7, 8, 8, 10}, 8)));
+        System.out.println(solution.canJump(new int[]{2,5,0,0}));
     }
 
 }
