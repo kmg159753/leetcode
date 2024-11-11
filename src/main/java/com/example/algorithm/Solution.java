@@ -1,6 +1,5 @@
 package com.example.algorithm;
 
-import java.lang.module.FindException;
 import java.util.*;
 
 public class Solution {
@@ -1009,9 +1008,110 @@ public class Solution {
         return goal == 0;
     }
 
+    public long minEnd(int n, int x) {
+        long result = x;
+        long remaining = n - 1;
+        long position = 1;
+
+        while (remaining != 0) {
+            if ((x & position) == 0) {
+                result |= (remaining & 1) * position;
+                remaining >>= 1;
+            }
+            position <<= 1;
+        }
+
+        return result;
+    }
+
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        inorderHelper(root, result);
+        return result;
+    }
+
+    private void inorderHelper(TreeNode node, List<Integer> result) {
+        if (node == null) {
+            return;
+        }
+        inorderHelper(node.left, result); // Visit left subtree
+        result.add(node.val);             // Visit current node
+        inorderHelper(node.right, result); // Visit right subtree
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        boolean result = true;
+        return isValidBSTDFS(root,null,null);
+
+    }
+
+    private boolean isValidBSTDFS(TreeNode node,Integer lower,Integer upper ){
+        if(node == null){
+            return true;
+        }
+        if(lower != null && lower >= node.val){
+            return false;
+        }
+
+        if(upper != null && upper <= node.val){
+            return false;
+        }
+
+
+        if(!isValidBSTDFS(node.left, lower,node.val)){
+            return false;
+        }
+        if(!isValidBSTDFS(node.right, node.val, upper)){
+            return false;
+        }
+
+        return true;
+    }
+
+    TreeNode prev=null,first=null,second=null;
+    void inorder(TreeNode root){
+        if(root==null)
+            return ;
+        inorder(root.left);
+        if(prev!=null&&root.val<prev.val){
+            if(first==null)
+                first=prev;
+            second=root;
+        }
+        prev=root;
+        inorder(root.right);
+    }
+    public void recoverTree(TreeNode root) {
+        if(root==null)
+            return ;
+        inorder(root);
+        int temp=first.val;
+        first.val=second.val;
+        second.val=temp;
+    }
+
     public static void main(String[] args) {
+
+        TreeNode root2 = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5, new TreeNode(6), new TreeNode(7))), new TreeNode(3, null, new TreeNode(8, null, new TreeNode(9))));
+        TreeNode root3 = new TreeNode(2, new TreeNode(1, null, null), new TreeNode(3, null, null));
+        TreeNode root4 = new TreeNode(5, new TreeNode(1), new TreeNode(6, new TreeNode(7), new TreeNode(8)));
+
         Solution solution = new Solution();
-        System.out.println(solution.canJump(new int[]{2,5,0,0}));
+
+        System.out.println("Inorder traversal for root2: " + solution.isValidBST(root4)); // Should print [4, 2, 6, 5, 7, 1, 3, 9, 8]
+
     }
 
 }
