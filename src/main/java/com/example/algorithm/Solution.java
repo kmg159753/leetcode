@@ -1102,15 +1102,57 @@ public class Solution {
         second.val=temp;
     }
 
+    public void printInorder(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        printInorder(node.left);
+        System.out.print(node.val + " ");
+        printInorder(node.right);
+    }
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        return isSaneTreeBackTracking(p,q);
+    }
+    private boolean isSaneTreeBackTracking(TreeNode p, TreeNode q){
+        if(p == null && q == null ){
+            return true;
+        }
+        if(p == null && q != null){
+            return false;
+        }
+        if(p != null && q == null){
+            return false;
+        }
+
+        if(!isSaneTreeBackTracking(p.left,q.left)){
+            return false;
+        }
+
+
+        if(p.val != q.val){
+            return false;
+        }
+
+        if(!isSaneTreeBackTracking(p.right,q.right)){
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
-        TreeNode root2 = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5, new TreeNode(6), new TreeNode(7))), new TreeNode(3, null, new TreeNode(8, null, new TreeNode(9))));
-        TreeNode root3 = new TreeNode(2, new TreeNode(1, null, null), new TreeNode(3, null, null));
-        TreeNode root4 = new TreeNode(5, new TreeNode(1), new TreeNode(6, new TreeNode(7), new TreeNode(8)));
+        TreeNode root1 = new TreeNode(1, new TreeNode(2,null,null),new TreeNode(3,null,null));
+        TreeNode root2 = new TreeNode(1, new TreeNode(2,null,null),new TreeNode(3,null,null));
+
+        TreeNode root3 = new TreeNode(1, new TreeNode(2,null,null),null);
+        TreeNode root4 = new TreeNode(1,null,new TreeNode(2,null,null));
 
         Solution solution = new Solution();
 
-        System.out.println("Inorder traversal for root2: " + solution.isValidBST(root4)); // Should print [4, 2, 6, 5, 7, 1, 3, 9, 8]
+        System.out.println(solution.isSaneTreeBackTracking(root3,root4));
+
 
     }
 
