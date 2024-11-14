@@ -794,7 +794,7 @@ public class Solution {
         List<List<Integer>> lists = new ArrayList<>();
 
         for (int i = 0; i < nums.length - 2; i++) {
-            if (i > 0 && nums[i] == nums[i-1]) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int left = i + 1, right = nums.length - 1;
@@ -805,7 +805,8 @@ public class Solution {
                     while (left < right && nums[left] == nums[left + 1]) left++;
                     while (left < right && nums[right] == nums[right - 1]) right--;
 
-                    left++; right--;
+                    left++;
+                    right--;
 
 
                 } else if ((nums[i] + nums[left] + nums[right] < 0)) {
@@ -827,19 +828,19 @@ public class Solution {
             int left = i + 1;
             int right = nums.length - 1;
 
-            while (left < right){
+            while (left < right) {
                 int sum = nums[i] + nums[left] + nums[right];
-                if(sum == target){
+                if (sum == target) {
                     return sum;
-                } else if(sum < target){
+                } else if (sum < target) {
                     left++;
-                    if(Math.abs(target - sum) < min){
+                    if (Math.abs(target - sum) < min) {
                         min = Math.abs(target - sum);
                         result = sum;
                     }
                 } else {
                     right--;
-                    if(Math.abs(sum - target) < min){
+                    if (Math.abs(sum - target) < min) {
                         min = Math.abs(target - sum);
                         result = sum;
                     }
@@ -854,18 +855,18 @@ public class Solution {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
 
-        for (int i = 0; i < nums.length-3; i++) {
-            if(i != 0 && nums[i] == nums[i-1]) continue;
-            for (int j = i+1; j < nums.length-2; j++) {
-                if(j != i+1 && nums[j] == nums[j-1]) continue;
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (i != 0 && nums[i] == nums[i - 1]) continue;
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                if (j != i + 1 && nums[j] == nums[j - 1]) continue;
 
-                int left = j+1, right = nums.length-1;
+                int left = j + 1, right = nums.length - 1;
 
-                while (left < right){
-                    long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
+                while (left < right) {
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
 
 
-                    if(sum == target){
+                    if (sum == target) {
                         result.add(List.of(nums[i], nums[j], nums[left], nums[right]));
 
                         while (left < right && nums[left] == nums[left + 1]) left++;
@@ -874,7 +875,7 @@ public class Solution {
                         right--;
                     } else if (sum < target) {
                         left++;
-                    }else {
+                    } else {
                         right--;
                     }
                 }
@@ -888,45 +889,45 @@ public class Solution {
         int start = 0;
         int end = nums.length - 1;
 
-        while (index >= start && index <= end && start <= end){
+        while (index >= start && index <= end && start <= end) {
 
-            if (nums[index] >= nums[start]){//왼쪽 정렬?
-                if(nums[start] <= target && nums[index] >= target){ // 왼쪽에 포함?
+            if (nums[index] >= nums[start]) {//왼쪽 정렬?
+                if (nums[start] <= target && nums[index] >= target) { // 왼쪽에 포함?
                     end = index;
                     index = start + (end - start) / 2;
-                    while (index >= start && index <= end && start <= end){
-                        if (nums[index] < target){
+                    while (index >= start && index <= end && start <= end) {
+                        if (nums[index] < target) {
                             start = index + 1;
                             index = start + (end - start) / 2;
                         } else if (nums[index] > target) {
                             end = index - 1;
                             index = start + (end - start) / 2;
-                        }else {
+                        } else {
                             return index;
                         }
                     }
                     return -1;
-                }else { // 포함 안되면 오른쪽
+                } else { // 포함 안되면 오른쪽
                     start = index + 1;
                     index = start + (end - start) / 2;
                 }
             } else {// 오른쪽 정렬
-                if(nums[end] >= target && nums[index] <= target){ // 오른쪽에 포함?
+                if (nums[end] >= target && nums[index] <= target) { // 오른쪽에 포함?
                     start = index;
                     index = start + (end - start) / 2;
-                    while (index >= start && index <= end && start <= end){
-                        if (nums[index] < target){
+                    while (index >= start && index <= end && start <= end) {
+                        if (nums[index] < target) {
                             start = index + 1;
                             index = start + (end - start) / 2;
                         } else if (nums[index] > target) {
                             end = index - 1;
                             index = start + (index - start) / 2;
-                        }else {
+                        } else {
                             return index;
                         }
                     }
                     return -1;
-                }else { // 포함 안되면 왼쪽
+                } else { // 포함 안되면 왼쪽
                     end = index - 1;
                     index = start + (end - start) / 2;
                 }
@@ -942,21 +943,21 @@ public class Solution {
         return new int[]{left, right};
     }
 
-    private int binarySearch(int[] nums,int target, boolean isLeft){
+    private int binarySearch(int[] nums, int target, boolean isLeft) {
         int left = 0;
         int right = nums.length - 1;
         int index = -1;
 
-        while (left <= right){
+        while (left <= right) {
             int mid = (left + right) / 2;
 
-            if(nums[mid] == target){
+            if (nums[mid] == target) {
                 index = mid;
-                if(isLeft) right = mid - 1;
+                if (isLeft) right = mid - 1;
                 else left = mid + 1;
-            }else if(nums[mid] < target){
+            } else if (nums[mid] < target) {
                 left = mid + 1;
-            }else {
+            } else {
                 right = mid - 1;
             }
         }
@@ -970,10 +971,10 @@ public class Solution {
         int posjump = 0;
         int jump = 0; // result
 
-        for (int i = 0; i < nums.length-1; i++) {
+        for (int i = 0; i < nums.length - 1; i++) {
             max = Math.max(max, i + nums[i]);
 
-            if(i == posjump){
+            if (i == posjump) {
                 jump++;
                 posjump = max;
             }
@@ -986,7 +987,7 @@ public class Solution {
         int max = 0;
 
         for (int i = 0; i < nums.length; i++) {
-            if(max < i){
+            if (max < i) {
                 return false;
             }
             max = Math.max(max, i + nums[i]);
@@ -998,9 +999,9 @@ public class Solution {
     public boolean canJump2(int[] nums) {
         int goal = nums.length - 1;
 
-        for (int i = nums.length-2; i >=0; i--) {
+        for (int i = nums.length - 2; i >= 0; i--) {
             int nxtindex = i + nums[i];
-            if(nxtindex >= goal){
+            if (nxtindex >= goal) {
                 goal = i;
             }
         }
@@ -1028,14 +1029,21 @@ public class Solution {
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode() {}
-        TreeNode(int val) { this.val = val; }
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
         TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val;
             this.left = left;
             this.right = right;
         }
     }
+
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         inorderHelper(root, result);
@@ -1053,53 +1061,55 @@ public class Solution {
 
     public boolean isValidBST(TreeNode root) {
         boolean result = true;
-        return isValidBSTDFS(root,null,null);
+        return isValidBSTDFS(root, null, null);
 
     }
 
-    private boolean isValidBSTDFS(TreeNode node,Integer lower,Integer upper ){
-        if(node == null){
+    private boolean isValidBSTDFS(TreeNode node, Integer lower, Integer upper) {
+        if (node == null) {
             return true;
         }
-        if(lower != null && lower >= node.val){
+        if (lower != null && lower >= node.val) {
             return false;
         }
 
-        if(upper != null && upper <= node.val){
+        if (upper != null && upper <= node.val) {
             return false;
         }
 
 
-        if(!isValidBSTDFS(node.left, lower,node.val)){
+        if (!isValidBSTDFS(node.left, lower, node.val)) {
             return false;
         }
-        if(!isValidBSTDFS(node.right, node.val, upper)){
+        if (!isValidBSTDFS(node.right, node.val, upper)) {
             return false;
         }
 
         return true;
     }
 
-    TreeNode prev=null,first=null,second=null;
-    void inorder(TreeNode root){
-        if(root==null)
-            return ;
+    TreeNode prev = null, first = null, second = null;
+
+    void inorder(TreeNode root) {
+        if (root == null)
+            return;
         inorder(root.left);
-        if(prev!=null&&root.val<prev.val){
-            if(first==null)
-                first=prev;
-            second=root;
+        if (prev != null && root.val < prev.val) {
+            if (first == null)
+                first = prev;
+            second = root;
         }
-        prev=root;
+        prev = root;
         inorder(root.right);
     }
+
     public void recoverTree(TreeNode root) {
-        if(root==null)
-            return ;
+        if (root == null)
+            return;
         inorder(root);
-        int temp=first.val;
-        first.val=second.val;
-        second.val=temp;
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
     }
 
     public void printInorder(TreeNode node) {
@@ -1112,46 +1122,171 @@ public class Solution {
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        return isSaneTreeBackTracking(p,q);
+        return isSaneTreeBackTracking(p, q);
     }
-    private boolean isSaneTreeBackTracking(TreeNode p, TreeNode q){
-        if(p == null && q == null ){
+
+    private boolean isSaneTreeBackTracking(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
             return true;
         }
-        if(p == null && q != null){
+        if (p == null && q != null) {
             return false;
         }
-        if(p != null && q == null){
-            return false;
-        }
-
-        if(!isSaneTreeBackTracking(p.left,q.left)){
+        if (p != null && q == null) {
             return false;
         }
 
-
-        if(p.val != q.val){
+        if (!isSaneTreeBackTracking(p.left, q.left)) {
             return false;
         }
 
-        if(!isSaneTreeBackTracking(p.right,q.right)){
+
+        if (p.val != q.val) {
+            return false;
+        }
+
+        if (!isSaneTreeBackTracking(p.right, q.right)) {
             return false;
         }
 
         return true;
     }
 
+    public TreeNode invertTree(TreeNode root) {
+        invertTreeBT(root);
+
+        return root;
+    }
+
+    private void invertTreeBT(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        TreeNode temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+
+        invertTreeBT(node.left);
+        invertTreeBT(node.right);
+    }
+
+    private TreeNode other;
+
+    public boolean isSymmetric(TreeNode root) {
+        return isSymmetricBT(root.left, root.right);
+    }
+
+    private boolean isSymmetricBT(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+
+        if (root1 == null || root2 == null || root1.val != root2.val) {
+            return false;
+        }
+
+        if (!isSymmetricBT(root1.left, root2.right)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private int max = 0;
+    public int maxDepth(TreeNode root) {
+
+
+        countDepth(root, 1);
+
+        return max;
+    }
+
+    private void countDepth(TreeNode node, int depth) {
+        if (node == null) {
+            return;
+        }
+
+        if(depth > max){
+            max = depth;
+        }
+
+        countDepth(node.left, depth + 1);
+        countDepth(node.right, depth + 1);
+    }
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+
+        pathSumBT(list, root,0, targetSum,result);
+
+        return result;
+    }
+    private void pathSumBT(List<Integer> list, TreeNode node,int sum , int targetSum,List<List<Integer>> result){
+        if(node == null){
+            return;
+        }
+
+        list.add(node.val);
+        sum += node.val;
+
+        if(node.left == null && node.right == null&&sum == targetSum){
+            result.add(new ArrayList<>(list));
+        }
+
+        pathSumBT(list,node.left,sum,targetSum,result);
+
+
+        pathSumBT(list,node.right,sum,targetSum,result);
+        list.remove(list.size() - 1);
+
+
+    }
+
+    private TreeNode prev1 = null;
+
+    public void flatten(TreeNode root) {
+
+        flattenBT(root);
+    }
+
+    private void flattenBT(TreeNode node){
+        if(node == null){
+            return;
+        }
+
+        flattenBT(node.right);
+        flattenBT(node.left);
+
+        node.right = prev1;
+        node.left = null;
+        prev1 = node;
+
+    }
+
     public static void main(String[] args) {
 
-        TreeNode root1 = new TreeNode(1, new TreeNode(2,null,null),new TreeNode(3,null,null));
-        TreeNode root2 = new TreeNode(1, new TreeNode(2,null,null),new TreeNode(3,null,null));
+        TreeNode root1 = new TreeNode(3, new TreeNode(9, null, null), new TreeNode(20, new TreeNode(15,null,null), new TreeNode(7,null,null)));
+        TreeNode root2 = new TreeNode(1, new TreeNode(2, null, null), new TreeNode(3, null, null));
 
-        TreeNode root3 = new TreeNode(1, new TreeNode(2,null,null),null);
-        TreeNode root4 = new TreeNode(1,null,new TreeNode(2,null,null));
+        TreeNode root3 = new TreeNode(1, new TreeNode(2, null, null), null);
+        TreeNode root4 = new TreeNode(1, null, new TreeNode(2, null, null));
 
         Solution solution = new Solution();
 
-        System.out.println(solution.isSaneTreeBackTracking(root3,root4));
+        System.out.println(solution.maxDepth(root1));
+
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(5);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(4);
+        root.right.right = new TreeNode(6);
+
+
+        solution.flatten(root);
+
+        System.out.println();
 
 
     }
