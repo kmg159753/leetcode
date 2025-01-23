@@ -1194,6 +1194,7 @@ public class Solution {
     }
 
     private int max = 0;
+
     public int maxDepth(TreeNode root) {
 
 
@@ -1207,37 +1208,39 @@ public class Solution {
             return;
         }
 
-        if(depth > max){
+        if (depth > max) {
             max = depth;
         }
 
         countDepth(node.left, depth + 1);
         countDepth(node.right, depth + 1);
     }
+
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> result = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
 
-        pathSumBT(list, root,0, targetSum,result);
+        pathSumBT(list, root, 0, targetSum, result);
 
         return result;
     }
-    private void pathSumBT(List<Integer> list, TreeNode node,int sum , int targetSum,List<List<Integer>> result){
-        if(node == null){
+
+    private void pathSumBT(List<Integer> list, TreeNode node, int sum, int targetSum, List<List<Integer>> result) {
+        if (node == null) {
             return;
         }
 
         list.add(node.val);
         sum += node.val;
 
-        if(node.left == null && node.right == null&&sum == targetSum){
+        if (node.left == null && node.right == null && sum == targetSum) {
             result.add(new ArrayList<>(list));
         }
 
-        pathSumBT(list,node.left,sum,targetSum,result);
+        pathSumBT(list, node.left, sum, targetSum, result);
 
 
-        pathSumBT(list,node.right,sum,targetSum,result);
+        pathSumBT(list, node.right, sum, targetSum, result);
         list.remove(list.size() - 1);
 
 
@@ -1250,8 +1253,8 @@ public class Solution {
         flattenBT(root);
     }
 
-    private void flattenBT(TreeNode node){
-        if(node == null){
+    private void flattenBT(TreeNode node) {
+        if (node == null) {
             return;
         }
 
@@ -1264,31 +1267,76 @@ public class Solution {
 
     }
 
+
+    public class ListNode2 {
+        int val;
+        ListNode2 next;
+
+        ListNode2() {
+        }
+
+        ListNode2(int val) {
+            this.val = val;
+        }
+
+        ListNode2(int val, ListNode2 next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    public ListNode2 removeNthFromEnd(ListNode2 head, int n) {
+        ListNode2 dummy = new ListNode2(0);
+        dummy.next = head;
+
+        ListNode2 first = dummy;
+        ListNode2 second = dummy;
+
+        for (int i = 0; i <= n; i++) {
+            first = first.next;
+        }
+
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+
+        second.next = second.next.next;
+
+        return dummy;
+    }
+
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            Character now = s.charAt(i);
+
+            if (now == '(' || now == '{' || now == '[') {
+                stack.push(now);
+            } else {
+                if (
+                        stack.isEmpty() ||
+                        (now == ')' && stack.pop() != '(') ||
+                        (now == '}' && stack.pop() != '{') ||
+                        (now == ']' && stack.pop() != '[')
+                ) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
     public static void main(String[] args) {
-
-        TreeNode root1 = new TreeNode(3, new TreeNode(9, null, null), new TreeNode(20, new TreeNode(15,null,null), new TreeNode(7,null,null)));
-        TreeNode root2 = new TreeNode(1, new TreeNode(2, null, null), new TreeNode(3, null, null));
-
-        TreeNode root3 = new TreeNode(1, new TreeNode(2, null, null), null);
-        TreeNode root4 = new TreeNode(1, null, new TreeNode(2, null, null));
-
         Solution solution = new Solution();
 
-        System.out.println(solution.maxDepth(root1));
+        boolean valid = solution.isValid("[");
 
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(5);
-        root.left.left = new TreeNode(3);
-        root.left.right = new TreeNode(4);
-        root.right.right = new TreeNode(6);
-
-
-        solution.flatten(root);
-
-        System.out.println();
-
+        System.out.println(valid);
 
     }
+
 
 }
